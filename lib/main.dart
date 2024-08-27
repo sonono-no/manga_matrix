@@ -115,7 +115,7 @@ class _LogInPageState extends State<MainPage> {
                         return MyHomePage();
                       }));
                     }, 
-                    child: Text('Sign in'),
+                    child: Text('Log in'),
                   ),
                 )
               ],
@@ -125,9 +125,9 @@ class _LogInPageState extends State<MainPage> {
               children: [
                 TextButton(
                   onPressed: () {
-                    //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
-                    //  return SignUpPage();
-                    //}));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+                      return SignUpPage();
+                    }));
                   }, 
                   child: Text('New user? Sign up!', 
                     style: TextStyle(decoration: TextDecoration.underline),
