@@ -12,6 +12,7 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   bool _obscure = true;
   bool _obscure2 = true;
+  bool valid = false;
 
   @override
   Widget build(BuildContext context) {
@@ -141,19 +142,33 @@ class _SignUpPageState extends State<SignUpPage> {
                   padding: const EdgeInsets.all(10.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
-                        return MainPage();
-                      }));
-                      showDialog(context: context, builder: (BuildContext context) => AlertDialog(
-                        title: const Text('Account Created'),
-                        content: const Text('Account has been created! Redirecting to the log-in page.'),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () => Navigator.pop(context, 'OK'), 
-                            child: const Text('OK'),
-                            )
-                        ],
-                      ));
+                      valid = validateEntry();
+                      if(valid){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+                          return MainPage();
+                        }));
+                        showDialog(context: context, builder: (BuildContext context) => AlertDialog(
+                          title: const Text('Account Created'),
+                          content: const Text('Account has been created! Redirecting to the log-in page.'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'OK'), 
+                              child: const Text('OK'),
+                              )
+                          ],
+                        ));
+                      } else {
+                        showDialog(context: context, builder: (BuildContext context) => AlertDialog(
+                          title: const Text('Invalid Entry'),
+                          content: const Text('Account info is invalid, please fix entry and try again.'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'OK'), 
+                              child: const Text('OK'),
+                              )
+                          ],
+                        ));
+                      }
                     }, 
                     child: Text('Create Account'),
                   ),
@@ -165,4 +180,9 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
+}
+
+bool validateEntry(){
+  //TODO: add entry validation
+  return true;
 }

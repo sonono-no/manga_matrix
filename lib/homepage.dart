@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:manga_matrix/mangainfopage.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -140,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                     )
                   ),
-                Text(' /   *Total Chapters: ', style: TextStyle(fontSize: 14)),
+                Text(' / ', style: TextStyle(fontSize: 14)),
                 SizedBox(
                     width: 50,
                     height: 50,
@@ -277,7 +278,9 @@ class ListScreen extends StatelessWidget {
               tileColor: index.isOdd ? const Color.fromARGB(73, 124, 17, 53) : Colors.white,
               title: Text('Manga $index'),
               onTap: () {
-              
+                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+                  return MangaInfoPage();
+                }));
               },
             );
           }
