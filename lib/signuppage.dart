@@ -12,7 +12,7 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   bool _obscure = true;
   bool _obscure2 = true;
-  bool valid = false;
+  bool valid = true;
 
   @override
   Widget build(BuildContext context) {
