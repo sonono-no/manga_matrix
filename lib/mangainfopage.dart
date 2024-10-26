@@ -92,16 +92,15 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Manga Name:        '),
-                  ),
                   new Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         readOnly: true,
                         initialValue: mangaName,
+                        decoration: InputDecoration(
+                          labelText: "Manga name"
+                        ),
                       ),
                       )
                   )
@@ -113,16 +112,15 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Publisher:        '),
-                  ),
                   new Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         readOnly: true,
                         initialValue: publisher,
+                        decoration: InputDecoration(
+                          labelText: "Publisher"
+                        ),
                       ),
                       )
                   )
@@ -182,16 +180,15 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(' Manga Status:        '),
-                  ),
                   new Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         readOnly: readOnly,
                         initialValue: status,
+                        decoration: InputDecoration(
+                          labelText: "Manga Status"
+                        ),
                       ),
                       )
                   )
@@ -203,16 +200,15 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('User Status:        '),
-                  ),
                   new Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         readOnly: readOnly,
                         initialValue: userStatus,
+                        decoration: InputDecoration(
+                          labelText: "User status"
+                        ),
                       ),
                     )
                   )
@@ -224,22 +220,21 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Type:        '),
-                  ),
                   new Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         readOnly: true,
                         initialValue: type,
+                        decoration: InputDecoration(
+                          labelText: "Type"
+                        ),
                       ),
                       )
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(' Rating: '),
+                    child: Text('  '),
                   ),
                   new Flexible(
                     child: Padding(
@@ -247,6 +242,9 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                       child: TextFormField(
                         readOnly: readOnly,
                         initialValue: rating.toString(),
+                        decoration: InputDecoration(
+                          labelText: "Rating"
+                        ),
                       ),
                     )
                   )
@@ -258,10 +256,6 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Comments:        '),
-                  ),
                   new Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -269,6 +263,9 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                         readOnly: readOnly,
                         maxLines: null,
                         initialValue: comments,
+                        decoration: InputDecoration(
+                          labelText: "Comments"
+                        ),
                       ),
                     )
                   )

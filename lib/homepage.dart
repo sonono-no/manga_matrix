@@ -98,28 +98,30 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.all(5.0),
               child: Row(children: [
-                Text('* = Required', style: TextStyle(color: Colors.pink),)
+                Text('* = Required', style: TextStyle(color: Colors.blue),)
               ],),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('*Name: ', style: TextStyle(fontSize: 14)),
-                ),
                 new Flexible(
                   child: TextFormField(
                     decoration: InputDecoration(
-                      border: OutlineInputBorder()
+                      border: OutlineInputBorder(),
+                      labelText: "*Name"
                     ),
                   )
-                ),
-                Text(' Publisher: ', style: TextStyle(fontSize: 14)),
+                )
+              ],),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(children: [
                 new Flexible(
                   child: TextFormField(
                     decoration: InputDecoration(
-                      border: OutlineInputBorder()
+                      border: OutlineInputBorder(),
+                      labelText: "Publisher"
                     ),
                   )
                 )
@@ -128,26 +130,27 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(children: [
-                Text('*Chapters read: ', style: TextStyle(fontSize: 14)),
                 SizedBox(
-                    width: 50,
+                    width: 100,
                     height: 50,
                     child: TextFormField(
                       decoration: InputDecoration(
-                      border: OutlineInputBorder()
+                        border: OutlineInputBorder(),
+                        labelText: "*Chapters"
                       ),
                       inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.digitsOnly
                     ],
                     )
                   ),
-                Text(' / ', style: TextStyle(fontSize: 14)),
+                Text(' out of ', style: TextStyle(fontSize: 14)),
                 SizedBox(
-                    width: 50,
+                    width: 100,
                     height: 50,
                     child: TextFormField(
                       decoration: InputDecoration(
-                      border: OutlineInputBorder()
+                        border: OutlineInputBorder(),
+                        labelText: "*Total"
                       ),
                       inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.digitsOnly
@@ -209,13 +212,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       dropdownvalue = newValue!;
                     });
                   }),
-                  Text('  *Rating: ', style: TextStyle(fontSize: 14)),
                   SizedBox(
-                    width: 50,
+                    width: 80,
                     height: 60,
                     child: TextFormField(
                       decoration: InputDecoration(
-                        border: OutlineInputBorder()
+                        border: OutlineInputBorder(),
+                        labelText: "*Rating"
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -232,17 +235,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       maxLengthEnforcement: MaxLengthEnforcement.enforced,
                     )
                   ),
-                  Text(' / 10')
+                  Text(' out of 10')
               ],),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(children: [
-                Text('Comments: ', style: TextStyle(fontSize: 14)),
                 new Flexible(
                   child: TextField(
                     decoration: InputDecoration(
-                      border: OutlineInputBorder()
+                      border: OutlineInputBorder(),
+                      labelText: "Comments"
                     ),
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
@@ -378,18 +381,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Username:        '),
-                  ),
                   new Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
-                        readOnly: readOnly,
-                        initialValue: username,
-                      ),
-                    )
+                          readOnly: readOnly,
+                          initialValue: username,
+                          decoration: InputDecoration(
+                            labelText: "Username"
+                          ),
+                        ),
+                    ),
                   )
                 ]
               )
@@ -399,16 +401,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Email:        '),
-                  ),
                   new Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         readOnly: readOnly,
                         initialValue: email,
+                        decoration: InputDecoration(
+                          labelText: "Email"
+                        ),
                       ),
                     )
                   )

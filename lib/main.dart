@@ -57,10 +57,6 @@ class _LogInPageState extends State<MainPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Text('Username:'),
-                  ),
                   new Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
@@ -68,6 +64,7 @@ class _LogInPageState extends State<MainPage> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'Enter your username',
+                          labelText: "Username"
                         ),
                       ),
                     )
@@ -80,10 +77,6 @@ class _LogInPageState extends State<MainPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Password:'),
-                  ),
                   new Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
@@ -93,6 +86,7 @@ class _LogInPageState extends State<MainPage> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'Enter your password',
+                          labelText: "Password",
                           suffixIcon: IconButton(
                             icon: Icon(_obscure ? Icons.visibility : Icons.visibility_off),
                             onPressed: () {
