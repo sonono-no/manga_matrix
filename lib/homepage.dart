@@ -298,11 +298,126 @@ class SearchScreen extends StatelessWidget {
   }
 }
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({Key? key}) : super(key: key);
+
   @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+
+  String username = '';
+  String password = '';
+  String email = '';
+
+  bool readOnly = true;
+  bool switched = false;
+
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('Profile Screen'),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Toggle edit mode '),
+                  ),
+                  Switch(
+                    value: switched, 
+                    onChanged: (bool newValue) {
+                      setState(() {
+                        switched = newValue;
+                        switched ? readOnly = false : readOnly = true;
+                      });
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      child: Text('Submit Edits'),
+                      onPressed: (){
+                        if (readOnly){
+                          showDialog(context: context, builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Not in Edit Mode'),
+                            content: const Text('If you wish to edit, please toggle Edit Mode then make edits and press Submit Edits.'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, 'OK'), 
+                                child: const Text('OK'),
+                              )
+                            ],
+                          ));
+                        } else {
+                          //TODO: Update DB
+                          showDialog(context: context, builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Edits Submitted!'),
+                            content: const Text('Changes have been submitted to the database and your list has been updated.'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, 'OK'), 
+                                child: const Text('OK'),
+                                )
+                            ],
+                          ));
+                        }
+                      }
+                    ),
+                  ),
+                ]
+              )
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Username:        '),
+                  ),
+                  new Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        readOnly: readOnly,
+                        initialValue: username,
+                      ),
+                    )
+                  )
+                ]
+              )
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Email:        '),
+                  ),
+                  new Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        readOnly: readOnly,
+                        initialValue: email,
+                      ),
+                    )
+                  )
+                ]
+              )
+            ),
+          ]
+        )
+      )
     );
   }
 }
