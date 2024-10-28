@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:manga_matrix/main.dart';
+import 'package:manga_matrix/mongoDBmodel.dart';
 
 class MangaInfoPage extends StatefulWidget {
-  const MangaInfoPage({Key? key}) : super(key: key);
+  final MongoDbModel entryData;
+
+  const MangaInfoPage({Key? key, required this.entryData}) : super(key: key);
 
   @override
   State<MangaInfoPage> createState() => _MangaInfoPageState();
@@ -11,8 +14,9 @@ class MangaInfoPage extends StatefulWidget {
 
 class _MangaInfoPageState extends State<MangaInfoPage> {
 
+
   //TODO: pull from db
-  String mangaName = ''; 
+  //String mangaName = ''; 
   String publisher = '';
   int chRead = 0;
   int chTotal = 0;
@@ -97,7 +101,7 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         readOnly: true,
-                        initialValue: mangaName,
+                        initialValue: widget.entryData.mangaName,
                         decoration: InputDecoration(
                           labelText: "Manga name"
                         ),
@@ -141,7 +145,7 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         readOnly: readOnly,
-                        initialValue: chRead.toString(),
+                        initialValue: widget.entryData.chaptersRead.toString(),
                       ),
                     )
                   ),
@@ -203,9 +207,9 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                   new Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
+                      child: TextFormField( //TODO: CHANGE TO DROP DOWN
                         readOnly: readOnly,
-                        initialValue: userStatus,
+                        initialValue: widget.entryData.userStatus,
                         decoration: InputDecoration(
                           labelText: "User status"
                         ),
@@ -241,7 +245,7 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         readOnly: readOnly,
-                        initialValue: rating.toString(),
+                        initialValue: widget.entryData.rating.toString(),
                         decoration: InputDecoration(
                           labelText: "Rating"
                         ),
@@ -262,7 +266,7 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                       child: TextFormField(
                         readOnly: readOnly,
                         maxLines: null,
-                        initialValue: comments,
+                        initialValue: widget.entryData.comments,
                         decoration: InputDecoration(
                           labelText: "Comments"
                         ),

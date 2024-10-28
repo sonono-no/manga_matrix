@@ -321,15 +321,8 @@ class _ListScreenState extends State<ListScreen> {
                 return ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index){
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
-                          return MangaInfoPage();
-                        }));
-                      },
-                      child: displayEntryCard(
-                      MongoDbModel.fromJson(snapshot.data[index]))
-                    );
+                    return displayEntryCard(
+                      MongoDbModel.fromJson(snapshot.data[index]));
                   });
               } else {
                 return Center(
@@ -344,21 +337,29 @@ class _ListScreenState extends State<ListScreen> {
   }
 
   Widget displayEntryCard(MongoDbModel data){
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Text("${data.mangaName}"),
-            SizedBox(height: 5,),
-            Text("Chapters read: ${data.chaptersRead}"),
-            SizedBox(height: 5,),
-            Text("User status: ${data.userStatus}"),
-            SizedBox(height: 5,),
-            Text("Rate: ${data.rating}/10"),
-          ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+          return MangaInfoPage(entryData: data);
+        }));
+      },
+      child: 
+        Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Text("${data.mangaName}"),
+              SizedBox(height: 5,),
+              Text("Chapters read: ${data.chaptersRead}"),
+              SizedBox(height: 5,),
+              Text("User status: ${data.userStatus}"),
+              SizedBox(height: 5,),
+              Text("Rate: ${data.rating}/10"),
+            ],
+          ),
         ),
-      ),
+      )
     );
   }
 }
