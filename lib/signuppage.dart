@@ -28,10 +28,6 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Email:        '),
-                  ),
                   new Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -39,6 +35,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'Enter your email',
+                          labelText: "Email"
                         ),
                       ),
                     )
@@ -51,10 +48,6 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Username: '),
-                  ),
                   new Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -62,6 +55,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'Enter your username',
+                          labelText: "Username"
                         ),
                       ),
                     )
@@ -74,10 +68,6 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Password:  '),
-                  ),
                   new Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -87,6 +77,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'Enter your password',
+                          labelText: "Password",
                           suffixIcon: IconButton(
                             icon: Icon(_obscure ? Icons.visibility : Icons.visibility_off),
                             onPressed: () {
@@ -107,10 +98,6 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Confirm \nPassword:  '),
-                  ),
                   new Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -120,6 +107,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'Confirm your password',
+                          labelText: "Confirm password",
                           suffixIcon: IconButton(
                             icon: Icon(_obscure2 ? Icons.visibility : Icons.visibility_off),
                             onPressed: () {
