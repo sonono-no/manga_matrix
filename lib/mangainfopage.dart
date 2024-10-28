@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:manga_matrix/main.dart';
-import 'package:manga_matrix/mongoDBmodel.dart';
+import 'package:manga_matrix/dbEntryModel.dart';
 
 class MangaInfoPage extends StatefulWidget {
-  final MongoDbModel entryData;
+  final dbEntryModel entryData;
 
   const MangaInfoPage({Key? key, required this.entryData}) : super(key: key);
 

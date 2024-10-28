@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:manga_matrix/dbHelper/mongodb.dart';
 import 'package:manga_matrix/mangainfopage.dart';
-import 'package:manga_matrix/mongoDBmodel.dart';
+import 'package:manga_matrix/dbEntryModel.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -322,7 +322,7 @@ class _ListScreenState extends State<ListScreen> {
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index){
                     return displayEntryCard(
-                      MongoDbModel.fromJson(snapshot.data[index]));
+                      dbEntryModel.fromJson(snapshot.data[index]));
                   });
               } else {
                 return Center(
@@ -336,7 +336,7 @@ class _ListScreenState extends State<ListScreen> {
     );
   }
 
-  Widget displayEntryCard(MongoDbModel data){
+  Widget displayEntryCard(dbEntryModel data){
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){

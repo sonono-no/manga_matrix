@@ -1,16 +1,12 @@
-// To parse this JSON data, do
-//
-//     final mongoDbModel = mongoDbModelFromJson(jsonString);
-
 import 'dart:convert';
 
 import 'package:mongo_dart/mongo_dart.dart';
 
-MongoDbModel mongoDbModelFromJson(String str) => MongoDbModel.fromJson(json.decode(str));
+dbEntryModel dbEntryModelFromJson(String str) => dbEntryModel.fromJson(json.decode(str));
 
-String mongoDbModelToJson(MongoDbModel data) => json.encode(data.toJson());
+String dbEntryModelToJson(dbEntryModel data) => json.encode(data.toJson());
 
-class MongoDbModel {
+class dbEntryModel {
     ObjectId id;
     String username;
     String mangaName;
@@ -21,7 +17,7 @@ class MongoDbModel {
     List<String> customTags;
     String comments;
 
-    MongoDbModel({
+    dbEntryModel({
         required this.id,
         required this.username,
         required this.mangaName,
@@ -33,7 +29,7 @@ class MongoDbModel {
         required this.comments,
     });
 
-    factory MongoDbModel.fromJson(Map<String, dynamic> json) => MongoDbModel(
+    factory dbEntryModel.fromJson(Map<String, dynamic> json) => dbEntryModel(
         id: json["_id"],
         username: json["username"],
         mangaName: json["manga name"],
