@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:manga_matrix/dbHelper/mongodb.dart';
 import 'package:manga_matrix/mangainfopage.dart';
+import 'package:manga_matrix/mongoDBmodel.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -163,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(
+              child: Row( //TODO: CHANGE TO DROP DOWN
                 children: [
                   Radio(value: 0, groupValue: statusVal, onChanged: (index){
                     _handleStatusRadioChange;
@@ -185,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                children: [
+                children: [ //TODO: CHANGE TO DROP DOWN
                   Radio(value: 1, groupValue: null, onChanged: (index){}),
                   Text('Caught up'),
                   SizedBox(width: 10,),
@@ -294,13 +295,19 @@ class _ListScreenState extends State<ListScreen> {
               if (snapshot.hasData) {
                 var totalData = snapshot.data.length;
                 print("Total Data" + totalData.toString());
-                return Text("Data Found");
-                /*return ListView.builder(
+                return ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index){
-                    //call display card
-                });
-                */
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+                          return MangaInfoPage();
+                        }));
+                      },
+                      child: displayEntryCard(
+                      MongoDbModel.fromJson(snapshot.data[index]))
+                    );
+                  });
               } else {
                 return Center(
                   child: Text("No data available."),
@@ -310,7 +317,25 @@ class _ListScreenState extends State<ListScreen> {
           }
         )
       )
-        
+    );
+  }
+
+  Widget displayEntryCard(MongoDbModel data){
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Text("${data.mangaName}"),
+            SizedBox(height: 5,),
+            Text("Chapters read: ${data.chaptersRead}"),
+            SizedBox(height: 5,),
+            Text("${data.userStatus}"),
+            SizedBox(height: 5,),
+            Text("Rate: ${data.rating}/10"),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -444,5 +469,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
       )
     );
   }
-  //widget display card
+  
 }
