@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
+import 'package:manga_matrix/dbHelper/mongodb.dart';
 import 'package:manga_matrix/mangainfopage.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -269,25 +271,46 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class ListScreen extends StatelessWidget {
+class ListScreen extends StatefulWidget {
+  const ListScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ListScreen> createState() => _ListScreenState();
+}
+
+class _ListScreenState extends State<ListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: 
-        ListView.builder(
-          itemCount: 25,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              tileColor: index.isOdd ? const Color.fromARGB(73, 124, 17, 53) : Colors.white,
-              title: Text('Manga $index'),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
-                  return MangaInfoPage();
-                }));
-              },
-            );
+      body: SafeArea(
+        child: FutureBuilder(
+          future: MongoDatabase.getEntryData(),
+          builder: (context , AsyncSnapshot snapshot) {
+            if(snapshot.connectionState==ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              if (snapshot.hasData) {
+                var totalData = snapshot.data.length;
+                print("Total Data" + totalData.toString());
+                return Text("Data Found");
+                /*return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index){
+                    //call display card
+                });
+                */
+              } else {
+                return Center(
+                  child: Text("No data available."),
+                );
+              }
+            }
           }
-        ),
+        )
+      )
+        
     );
   }
 }
@@ -421,4 +444,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
       )
     );
   }
+  //widget display card
 }
