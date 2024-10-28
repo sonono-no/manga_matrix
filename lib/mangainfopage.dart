@@ -134,7 +134,7 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text('Chapters read:        '),
+                    child: Text('Chapters read: '),
                   ),
                   new Flexible(
                     child: Padding(

@@ -47,14 +47,28 @@ class _MyHomePageState extends State<MyHomePage> {
 enum Status { ongoing, completed, hiatus }
 enum UserStatus { caughtUp, dropped, wantToRead }
 
-String dropdownvalue = 'Manga';
-
+String typesdropdownvalue = 'Manga';
 var types = [
   'Manga',
   'Manhwa',
   'Webtoon',
   'Light novel',
   'Other',
+];
+
+String statusesdropdownvalue = 'Ongoing';
+var statuses = [
+  'Ongoing',
+  'Completed',
+  'Hiatus'
+];
+
+String userstatusesdropdownvalue = 'Caught up';
+var userStatuses = [
+  'Caught up',
+  'Still Reading',
+  'Dropped',
+  'Want to read'
 ];
 
 class HomeScreen extends StatefulWidget {
@@ -111,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: TextFormField(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: "*Name"
+                      labelText: "*Manga Name"
                     ),
                   )
                 )
@@ -164,37 +178,45 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row( //TODO: CHANGE TO DROP DOWN
+              child: Row(
                 children: [
-                  Radio(value: 0, groupValue: statusVal, onChanged: (index){
-                    _handleStatusRadioChange;
+                  Text('Manga status: '),
+                  SizedBox(width: 5,),
+                  DropdownButton(
+                  value: statusesdropdownvalue,
+                  items: statuses.map((String statuses){
+                    return DropdownMenuItem(
+                      value: statuses,
+                      child: Text(statuses),
+                      );
+                  }).toList(), 
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      statusesdropdownvalue = newValue!;
+                    });
                   }),
-                  Text('Ongoing'),
-                  SizedBox(width: 20,),
-                  Radio(value: 1, groupValue: statusVal, onChanged: (index){
-                    _handleStatusRadioChange;
-                  }),
-                  Text('Completed'),
-                  SizedBox(width: 10,),
-                  Radio(value: 2, groupValue: statusVal, onChanged: (index){
-                    _handleStatusRadioChange;
-                  }),
-                  Text('Hiatus')
                 ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                children: [ //TODO: CHANGE TO DROP DOWN
-                  Radio(value: 1, groupValue: null, onChanged: (index){}),
-                  Text('Caught up'),
-                  SizedBox(width: 10,),
-                  Radio(value: 2, groupValue: null, onChanged: (index){}),
-                  Text('Dropped'),
-                  SizedBox(width: 24,),
-                  Radio(value: 3, groupValue: null, onChanged: (index){}),
-                  Text('Want to read')
+                children: [
+                  Text('User status: '),
+                  SizedBox(width: 5,),
+                  DropdownButton(
+                  value: userstatusesdropdownvalue,
+                  items: userStatuses.map((String userStatuses){
+                    return DropdownMenuItem(
+                      value: userStatuses,
+                      child: Text(userStatuses),
+                      );
+                  }).toList(), 
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      userstatusesdropdownvalue = newValue!;
+                    });
+                  }),
                 ],
               ),
             ),
@@ -203,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Row(children: [
                 Text('*Type:    '),
                 DropdownButton(
-                  value: dropdownvalue,
+                  value: typesdropdownvalue,
                   items: types.map((String types){
                     return DropdownMenuItem(
                       value: types,
@@ -212,9 +234,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   }).toList(), 
                   onChanged: (String? newValue) {
                     setState(() {
-                      dropdownvalue = newValue!;
+                      typesdropdownvalue = newValue!;
                     });
                   }),
+                  SizedBox(width: 6,),
                   SizedBox(
                     width: 80,
                     height: 60,
@@ -330,7 +353,7 @@ class _ListScreenState extends State<ListScreen> {
             SizedBox(height: 5,),
             Text("Chapters read: ${data.chaptersRead}"),
             SizedBox(height: 5,),
-            Text("${data.userStatus}"),
+            Text("User status: ${data.userStatus}"),
             SizedBox(height: 5,),
             Text("Rate: ${data.rating}/10"),
           ],
