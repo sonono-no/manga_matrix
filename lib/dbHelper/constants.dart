@@ -1,3 +1,7 @@
+/* constants.dart
+ * does: sets constants for db vars
+ */
+
 const MONGO_URL = "mongodb+srv://sonono:D!wn674267@cluster0.og7oj.mongodb.net/MangaMatrix";
 const USER_COLLECTION = "User";
 const MANGA_COLLECTION = "Manga";

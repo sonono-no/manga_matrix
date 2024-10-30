@@ -1,5 +1,15 @@
+/* mongodb.dart
+ * does: connects to database
+ *       has functions for database interactions
+ *       prints db status on connection startup
+ * calls: N/A
+ * depends on: N/A
+ */
+
+//dart libraries
 import 'dart:developer';
 
+//project files
 import 'package:manga_matrix/dbHelper/constants.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 

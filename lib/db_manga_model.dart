@@ -1,5 +1,13 @@
+/* db_manga_Model.dart
+ * does: creates db model json framework for manga collection
+ * calls: N/A
+ * depends on: N/A
+ */
+
+//dart libraries
 import 'dart:convert';
 
+//projext files
 import 'package:mongo_dart/mongo_dart.dart';
 
 dbMangaModel dbMangaModelFromJson(String str) => dbMangaModel.fromJson(json.decode(str));

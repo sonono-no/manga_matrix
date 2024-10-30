@@ -1,6 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:mongo_dart/mongo_dart.dart' as mdb;
+/* main.dart
+ * does: establishes and runs app
+ *       connects database
+ *       implements up log-in page
+ * calls: signuppage.dart, homepage.dart, mongodb.dart
+ * depends on: N/A
+ */
 
+//flutter libraries
+import 'package:flutter/material.dart';
+
+//project files
 import 'homepage.dart';
 import 'dbHelper/mongodb.dart';
 import 'signuppage.dart';

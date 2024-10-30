@@ -1,9 +1,21 @@
+/* mangainfopage.dart
+ * does: displays info from manga and entry collections of database
+ *       takes in data for entry collection from list screen
+ *       takes snapshot of data from manga collection in db
+ *       allows edits on displayed info
+ *       submits and updates db with edited info
+ * calls: mongodb.dart
+ * depends on: listscreen.dart
+ */
+
+//flutter libraries
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+//project files
 import 'package:manga_matrix/dbHelper/mongodb.dart';
-import 'package:manga_matrix/dbMangaModel.dart';
-import 'package:manga_matrix/main.dart';
-import 'package:manga_matrix/dbEntryModel.dart';
+import 'package:manga_matrix/db_manga_model.dart';
+import 'package:manga_matrix/db_entry_model.dart';
 
 class MangaInfoPage extends StatefulWidget {
   final dbEntryModel entryData;
@@ -55,7 +67,10 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
 
   void setDbVars(dbMangaModel data) {
     mangaName = widget.entryData.mangaName;
-    publisher = data.publisher;
+    if(data.publisher.isNotEmpty){
+      publisher = data.publisher;
+    }
+    
     chRead = widget.entryData.chaptersRead;
     chTotal = data.totalChapters;
     status = data.status;
@@ -174,7 +189,7 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                                   labelText: "Manga name"
                                 ),
                               ),
-                              )
+                            )
                           )
                         ]
                       )
@@ -194,7 +209,7 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                                   labelText: "Publisher"
                                 ),
                               ),
-                              )
+                            )
                           )
                         ]
                       )
@@ -214,6 +229,9 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                               child: TextFormField(
                                 readOnly: readOnly,
                                 initialValue: chRead.toString(),
+                                inputFormatters:<TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
                               ),
                             )
                           ),
@@ -234,6 +252,9 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                               child: TextFormField(
                                 readOnly: readOnly,
                                 initialValue: chTotal.toString(),
+                                inputFormatters:<TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
                               ),
                             )
                           ),
@@ -318,9 +339,22 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                               child: TextFormField(
                                 readOnly: readOnly,
                                 initialValue: rating.toString(),
+                                inputFormatters:<TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                maxLength: 2,
+                                maxLengthEnforcement: MaxLengthEnforcement.enforced,
                                 decoration: InputDecoration(
                                   labelText: "Rating"
                                 ),
+                                validator: (value) {
+                                  if (value!.isEmpty) { //if value is null (! is null check)
+                                    return 'Please enter the Overall Rating';
+                                  } else if (int.parse(value) < 1 || int.parse(value) > 10) {
+                                    return 'The rating must be between 1 and 10';
+                                  }
+                                  return null;
+                                },
                               ),
                             )
                           )

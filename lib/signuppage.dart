@@ -1,5 +1,13 @@
+/* signuppage.dart
+ * does: implements the sign-up page
+ * calls: main.dart (log-in page)
+ * depends on: main.dart
+ */
+
+//flutter libraries
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
+//project files
 import 'package:manga_matrix/main.dart';
 
 class SignUpPage extends StatefulWidget {

@@ -1,9 +1,19 @@
+/* homepage.dart
+ * does: implements homepage & homescreen (entry screen) of appbar
+ *       initialiZes list of tabs for appbar tabbar
+ *       initializes list values for types, statuses, and userstatuses dropdowns
+ * calls: listscreen.dart, searchscreen.dart, profilescreen.dart
+ * depends on: main.dart
+ */
+
+//flutter libraries
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/material.dart';
-import 'package:manga_matrix/dbHelper/mongodb.dart';
-import 'package:manga_matrix/mangainfopage.dart';
-import 'package:manga_matrix/dbEntryModel.dart';
+
+//project files
+import 'package:manga_matrix/listscreen.dart';
+import 'package:manga_matrix/profilescreen.dart';
+import 'package:manga_matrix/searchscreen.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -77,24 +87,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int statusVal = -1;
-  Status _status = Status.ongoing;
-  UserStatus _userStatus = UserStatus.caughtUp;
-
-  void _handleStatusRadioChange(int value) {
-    setState(() {
-      statusVal = value;
-
-      switch (statusVal) {
-        case 0:
-          break;
-        case 1:
-          break;
-        case 2:
-          break;
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -171,8 +163,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         labelText: "*Total"
                       ),
                       inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly
-                    ],
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
                     )
                   ),
               ],),
@@ -181,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  Text('Manga status: '),
+                  Text('*Manga status: '),
                   SizedBox(width: 5,),
                   DropdownButton(
                     value: statusesdropdownvalue,
@@ -204,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  Text('User status: '),
+                  Text('*User status: '),
                   SizedBox(width: 5,),
                   DropdownButton(
                     value: userstatusesdropdownvalue,
@@ -250,7 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         labelText: "*Rating"
                       ),
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (value!.isEmpty) { //if value is null (! is null check)
                           return 'Please enter the Overall Rating';
                         } else if (int.parse(value) < 1 || int.parse(value) > 10) {
                           return 'The rating must be between 1 and 10';
@@ -294,206 +286,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class ListScreen extends StatefulWidget {
-  const ListScreen({Key? key}) : super(key: key);
-
-  @override
-  State<ListScreen> createState() => _ListScreenState();
-}
-
-class _ListScreenState extends State<ListScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: FutureBuilder(
-          future: MongoDatabase.getEntryData(),
-          builder: (context , AsyncSnapshot snapshot) {
-            if(snapshot.connectionState==ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              if (snapshot.hasData) {
-                var totalData = snapshot.data.length;
-                print("Total Data" + totalData.toString());
-                return ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (context, index){
-                    return displayEntryCard(
-                      dbEntryModel.fromJson(snapshot.data[index]));
-                  });
-              } else {
-                return Center(
-                  child: Text("No data available."),
-                );
-              }
-            }
-          }
-        )
-      )
-    );
-  }
-
-  Widget displayEntryCard(dbEntryModel data){
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
-          return MangaInfoPage(entryData: data);
-        }));
-      },
-      child: 
-        Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Text("${data.mangaName}"),
-              SizedBox(height: 5,),
-              Text("Chapters read: ${data.chaptersRead}"),
-              SizedBox(height: 5,),
-              Text("User status: ${data.userStatus}"),
-              SizedBox(height: 5,),
-              Text("Rate: ${data.rating}/10"),
-            ],
-          ),
-        ),
-      )
-    );
-  }
-}
-
-class SearchScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Search Screen'),
-    );
-  }
-}
-
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
-
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-  @override
-
-  String username = '';
-  String password = '';
-  String email = '';
-
-  bool readOnly = true;
-  bool switched = false;
-
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Toggle edit mode '),
-                  ),
-                  Switch(
-                    value: switched, 
-                    onChanged: (bool newValue) {
-                      setState(() {
-                        switched = newValue;
-                        switched ? readOnly = false : readOnly = true;
-                      });
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      child: Text('Submit Edits'),
-                      onPressed: (){
-                        if (readOnly){
-                          showDialog(context: context, builder: (BuildContext context) => AlertDialog(
-                            title: const Text('Not in Edit Mode'),
-                            content: const Text('If you wish to edit, please toggle Edit Mode then make edits and press Submit Edits.'),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, 'OK'), 
-                                child: const Text('OK'),
-                              )
-                            ],
-                          ));
-                        } else {
-                          //TODO: Update DB
-                          showDialog(context: context, builder: (BuildContext context) => AlertDialog(
-                            title: const Text('Edits Submitted!'),
-                            content: const Text('Changes have been submitted to the database and your list has been updated.'),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, 'OK'), 
-                                child: const Text('OK'),
-                                )
-                            ],
-                          ));
-                        }
-                      }
-                    ),
-                  ),
-                ]
-              )
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  new Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                          readOnly: readOnly,
-                          initialValue: username,
-                          decoration: InputDecoration(
-                            labelText: "Username"
-                          ),
-                        ),
-                    ),
-                  )
-                ]
-              )
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  new Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        readOnly: readOnly,
-                        initialValue: email,
-                        decoration: InputDecoration(
-                          labelText: "Email"
-                        ),
-                      ),
-                    )
-                  )
-                ]
-              )
-            ),
-          ]
-        )
-      )
     );
   }
 }

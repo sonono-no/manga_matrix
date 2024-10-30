@@ -1,5 +1,13 @@
+/* db_entry_model.dart
+ * does: creates db model json framework for entry collection
+ * calls: N/A
+ * depends on: N/A
+ */
+
+//dart libraries
 import 'dart:convert';
 
+//project files
 import 'package:mongo_dart/mongo_dart.dart';
 
 dbEntryModel dbEntryModelFromJson(String str) => dbEntryModel.fromJson(json.decode(str));
