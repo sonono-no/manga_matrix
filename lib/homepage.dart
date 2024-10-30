@@ -101,6 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(
               child: Row(
@@ -183,18 +184,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text('Manga status: '),
                   SizedBox(width: 5,),
                   DropdownButton(
-                  value: statusesdropdownvalue,
-                  items: statuses.map((String statuses){
-                    return DropdownMenuItem(
-                      value: statuses,
-                      child: Text(statuses),
-                      );
-                  }).toList(), 
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      statusesdropdownvalue = newValue!;
-                    });
-                  }),
+                    value: statusesdropdownvalue,
+                    items: statuses.map((String statuses){
+                      return DropdownMenuItem(
+                        value: statuses,
+                        child: Text(statuses),
+                        );
+                    }).toList(), 
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        statusesdropdownvalue = newValue!;
+                      });
+                    }
+                  ),
                 ],
               ),
             ),
@@ -205,18 +207,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text('User status: '),
                   SizedBox(width: 5,),
                   DropdownButton(
-                  value: userstatusesdropdownvalue,
-                  items: userStatuses.map((String userStatuses){
-                    return DropdownMenuItem(
-                      value: userStatuses,
-                      child: Text(userStatuses),
-                      );
-                  }).toList(), 
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      userstatusesdropdownvalue = newValue!;
-                    });
-                  }),
+                    value: userstatusesdropdownvalue,
+                    items: userStatuses.map((String userStatuses){
+                      return DropdownMenuItem(
+                        value: userStatuses,
+                        child: Text(userStatuses),
+                        );
+                    }).toList(), 
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        userstatusesdropdownvalue = newValue!;
+                      });
+                    }
+                  ),
                 ],
               ),
             ),
@@ -493,5 +496,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
       )
     );
   }
-  
 }

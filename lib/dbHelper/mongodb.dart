@@ -45,4 +45,9 @@ class MongoDatabase {
     final arrData = await tagsCollection.find().toList();
     return arrData;
   }
+
+  static Future<List<Map<String,dynamic>>> queryMangaDataEq(fieldname, value) async {
+    final data = await mangaCollection.find(where.eq(fieldname, value)).toList();
+    return data;
+  }
 }
