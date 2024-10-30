@@ -54,9 +54,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-enum Status { ongoing, completed, hiatus }
-enum UserStatus { caughtUp, dropped, wantToRead }
-
 String typesdropdownvalue = 'Manga';
 var types = [
   'Manga',
