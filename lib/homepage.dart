@@ -92,21 +92,59 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Center(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text('Multi entry:', 
+                        style: TextStyle(
+                          fontSize: 20, 
+                        )
+                      ),
+                )
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text('Manual entry:', style: TextStyle(fontSize: 17, decoration: TextDecoration.underline)),
-                  )
-                ],
+                new Flexible(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: "List entry",
+                        hintText: "Enter multiple manga names with chapter numbers in list form"
+                      ),
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                    )
+                  ),
+                ]
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text('Manual entry:', 
+                        style: TextStyle(
+                          fontSize: 20, 
+                        )
+                      ),
+                )
+              ],
             ),
             Padding(
               padding: const EdgeInsets.all(5.0),
-              child: Row(children: [
-                Text('* = Required', style: TextStyle(color: Colors.blue),)
-              ],),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('* = Required', style: TextStyle(color: Colors.blue),)
+                ],
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -258,18 +296,20 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Row(children: [
-                new Flexible(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "Comments"
-                    ),
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                  )
-                ),
-              ],),
+              child: Row(
+                children: [
+                  new Flexible(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: "Comments"
+                      ),
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                    )
+                  ),
+                ],
+              ),
             ),
             Row(children: [
               Padding(

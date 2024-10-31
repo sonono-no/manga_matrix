@@ -20,7 +20,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String username = '';
+  String username = 'user';
   String password = '';
   String email = '';
 
@@ -32,6 +32,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Stack(
+                  children: <Widget>[
+                    Text(
+                      'Hello, $username!',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ]
+                )
+              ],
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(

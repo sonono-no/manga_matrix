@@ -22,6 +22,10 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
+
+  String test = '';
+  int testnum = -1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,9 +76,11 @@ class _ListScreenState extends State<ListScreen> {
               SizedBox(height: 5,),
               Text("Chapters read: ${data.chaptersRead}"),
               SizedBox(height: 5,),
-              Text("User status: ${data.userStatus}"),
+              if(data.userStatus!='')
+                Text("User status: ${data.userStatus}"),
               SizedBox(height: 5,),
-              Text("Rate: ${data.rating}/10"),
+              if(data.rating!=-1)
+                Text("Rate: ${data.rating}/10"),
             ],
           ),
         ),
