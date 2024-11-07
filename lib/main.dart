@@ -52,12 +52,17 @@ class _LogInPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.grey[300],
         title: Padding(
           padding: EdgeInsets.all(8.0),
           child: Center(child: Text('Welcome to Manga Matrix!')),
         ),
       ),
-      body: SingleChildScrollView(
+      body: DecoratedBox(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("images/wotakoi_reading_sit.jpg"), fit: BoxFit.cover),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

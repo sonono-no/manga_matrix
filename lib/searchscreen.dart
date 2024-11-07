@@ -20,34 +20,38 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  new Flexible(
-                    child: SearchAnchor(
-                    builder: (context, controller) {
-                    return SearchBar(
-                      leading: Icon(Icons.search),
-                        hintText: "Enter manga name to search by",
-                      ); 
-                    },
-                    suggestionsBuilder: (context, controller) {
-                      return [];
-                      }
-                    )
-                  )
-                ]
-              )
-            ),
-          ],
+      body: DecoratedBox(
+        decoration: BoxDecoration(
         ),
-      ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    new Flexible(
+                      child: SearchAnchor(
+                      builder: (context, controller) {
+                      return SearchBar(
+                        leading: Icon(Icons.search),
+                          hintText: "Enter manga name to search by",
+                        ); 
+                      },
+                      suggestionsBuilder: (context, controller) {
+                        return [];
+                        }
+                      )
+                    )
+                  ]
+                )
+              ),
+            ],
+          ),
+        ),
+      )
     );
   }
 }

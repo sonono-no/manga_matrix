@@ -23,63 +23,71 @@ class ListScreen extends StatefulWidget {
 
 class _ListScreenState extends State<ListScreen> {
 
-  String test = '';
-  int testnum = -1;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: FutureBuilder(
-          future: MongoDatabase.getEntryData(),
-          builder: (context , AsyncSnapshot snapshot) {
-            if(snapshot.connectionState==ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              if (snapshot.hasData) {
-                var totalData = snapshot.data.length;
-                print("Total Data" + totalData.toString());
-                return ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (context, index){
-                    return displayEntryCard(
-                      dbEntryModel.fromJson(snapshot.data[index]));
-                  });
-              } else {
+      body: DecoratedBox(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("images/girl_reading_sit.jpg"), fit: BoxFit.cover),
+        ),
+        child: SafeArea(
+          child: FutureBuilder(
+            future: MongoDatabase.getEntryData(),
+            builder: (context , AsyncSnapshot snapshot) {
+              if(snapshot.connectionState==ConnectionState.waiting) {
                 return Center(
-                  child: Text("No data available."),
+                  child: CircularProgressIndicator(),
                 );
+              } else {
+                if (snapshot.hasData) {
+                  var totalData = snapshot.data.length;
+                  print("Total Data" + totalData.toString());
+                  return ListView.builder(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index){
+                      return displayEntryCard(
+                        dbEntryModel.fromJson(snapshot.data[index]));
+                    });
+                } else {
+                  return Center(
+                    child: Text("No data available."),
+                  );
+                }
               }
             }
-          }
+          )
         )
       )
     );
   }
 
+  /* Function to display summarized manga info in card form
+   * param: dbEntryModel data (formatted json data from database Entry collection)
+   * return: Card widget
+   */
   Widget displayEntryCard(dbEntryModel data){
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
-          return MangaInfoPage(entryData: data);
+          return MangaInfoPage(entryData: data); //go to MangaInfoPage if card is clicked
         }));
       },
       child: 
         Card(
+          color: Colors.lightBlue[50],
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-            children: [
+            children: [ //displays selected Manga entry info 
               Text("${data.mangaName}"),
               SizedBox(height: 5,),
               Text("Chapters read: ${data.chaptersRead}"),
               SizedBox(height: 5,),
-              if(data.userStatus!='')
+              if(data.userStatus!='') //if userStatus field not empty
                 Text("User status: ${data.userStatus}"),
               SizedBox(height: 5,),
-              if(data.rating!=-1)
+              if(data.rating!=-1) //if rating field not empty
                 Text("Rate: ${data.rating}/10"),
             ],
           ),
