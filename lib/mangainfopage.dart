@@ -410,6 +410,11 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                           ]
                         )
                       ),
+                      Row(
+                        children: [
+                          new Flexible(child: SizedBox(height: 400,))
+                        ],
+                      )
                     ],
                   );
                 } else {

@@ -32,7 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: DecoratedBox(
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("images/girl_reading_desk.jpg"), fit: BoxFit.fitWidth),
+              image: AssetImage("images/wotakoi_ep25.png"), fit: BoxFit.fitWidth),
         ),
         child:SingleChildScrollView(
           child: Column(
@@ -156,6 +156,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ]
                 )
               ),
+              Row(
+                children: [
+                  new Flexible(child: SizedBox(height: 400,))
+                ],
+              )
             ]
           )
         )

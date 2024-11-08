@@ -84,13 +84,17 @@ flutter:
   assets:
     - images/L.jpg
     - images/wotakoi_reading_sit.jpg
+    - images/wotakoi_ep25.png
     - images/wotakoi_reading_stand.jpg
+    - images/wotakoi_bench_reading.jpg
     - images/narumi_reading_stand.jpg
+    - images/wotakoi_reading_stand_grey.jpg
     - images/wotakoi_playing_stand.jpg
     - images/girl_reading_sit.jpg
     - images/girl_reading_desk.jpg
     - images/girl_drawing_desk.jpg
     - images/MM_icon_temp.png
+    - images/pink_background_books.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

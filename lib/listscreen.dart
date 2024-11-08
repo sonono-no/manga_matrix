@@ -29,7 +29,7 @@ class _ListScreenState extends State<ListScreen> {
       body: DecoratedBox(
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("images/girl_reading_sit.jpg"), fit: BoxFit.cover),
+              image: AssetImage("images/wotakoi_reading_stand_grey.jpg"), fit: BoxFit.cover),
         ),
         child: SafeArea(
           child: FutureBuilder(
