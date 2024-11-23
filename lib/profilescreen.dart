@@ -156,7 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ]
                 )
               ),
-              Row(
+              Row( // fill page for better view of background
                 children: [
                   new Flexible(child: SizedBox(height: 400,))
                 ],

@@ -6,9 +6,12 @@
 
 //flutter libraries
 import 'package:flutter/material.dart';
+import 'package:manga_matrix/dbHelper/mongodb.dart';
+import 'package:manga_matrix/db_user_model.dart';
 
 //project files
 import 'package:manga_matrix/main.dart';
+import 'package:mongo_dart/mongo_dart.dart' as M;
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -18,9 +21,19 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  // pwd hidden bools
   bool _obscure = true;
   bool _obscure2 = true;
+
+  // input validation
   bool valid = true;
+
+  // text field controllers
+  var usernameController = new TextEditingController();
+  var emailController = new TextEditingController();
+  var pwdController = new TextEditingController();
+  var pwdConfController = new TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +53,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
+                        controller: emailController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'Enter your email',
@@ -60,6 +74,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
+                        controller: usernameController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'Enter your username',
@@ -80,6 +95,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
+                        controller: pwdController,
                         obscureText: _obscure,
                         obscuringCharacter: '*',
                         decoration: InputDecoration(
@@ -110,6 +126,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
+                        controller: pwdConfController,
                         obscureText: _obscure2,
                         obscuringCharacter: '*',
                         decoration: InputDecoration(
@@ -138,8 +155,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   padding: const EdgeInsets.all(10.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      valid = validateEntry();
+                      valid = validateEntry(usernameController.text, emailController.text, pwdController.text, pwdConfController.text);
                       if(valid){
+                        // insert user to db
+                        _insertUser(usernameController.text, pwdController.text, emailController.text);
                         Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
                           return MainPage();
                         }));
@@ -178,7 +197,72 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 }
 
-bool validateEntry(){
-  //TODO: add entry validation
+/* insert new user
+ * param: username, pwd, and email controllers
+ */
+Future<void> _insertUser(String username, String password, String email) async {
+  var _id = M.ObjectId();
+  final data = dbUserModel(id: _id, username: username, password: password, email: email);
+  var result = await MongoDatabase.insertUser(data);
+}
+
+/* checks if pwds match + checks acc doesnt exist
+ * returns true if valid, false if not
+ */
+bool validateEntry(String username, String email, String pwd, String pwdConf){
+
+  // if pwds dont match -> return false
+  if (pwd != pwdConf) {
+    return false;
+  }
+
+  //if any fields empty -> return false
+  if (username.isEmpty || email.isEmpty || pwd.isEmpty || pwdConf.isEmpty)
+    return false;
+
+  //TODO: fix entry validation
+
+  // if account exists -> popup "acc exists" -> nav log in
+  /*
+  Scaffold(
+    body: FutureBuilder(
+      future: MongoDatabase.queryUserDataEq("username", username), 
+      builder: (context , AsyncSnapshot snapshot) {
+        if (snapshot.connectionState==ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else {
+          if (snapshot.hasData) {
+            var totalData = snapshot.data.length;
+            print("Total Data" + totalData.toString());
+            if (dbUserModel.fromJson(snapshot.data[0]).email == email 
+                && dbUserModel.fromJson(snapshot.data[0]).password == pwd) {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+                    return MainPage();
+                  }));
+                  showDialog(context: context, builder: (BuildContext context) => AlertDialog(
+                    title: const Text('Account Exists'),
+                    content: const Text('This account already exists in the database, please log in.'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, 'OK'), 
+                        child: const Text('OK'),
+                        )
+                    ],
+                  ));
+                }
+            return Center(
+              child: Text('Account already exists'),
+            );
+          } else {
+            return Center(
+              child: Text('Creating user...'),
+            );
+          }
+        }
+      })
+    ,);
+    */
   return true;
 }

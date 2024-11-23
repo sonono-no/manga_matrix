@@ -11,6 +11,7 @@ import 'dart:developer';
 
 //project files
 import 'package:manga_matrix/dbHelper/constants.dart';
+import 'package:manga_matrix/db_user_model.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class MongoDatabase {
@@ -36,6 +37,20 @@ class MongoDatabase {
     print(await userCollection.find().toList());
   }
 
+  static Future<String> insertUser(dbUserModel data) async {
+    try {
+      var result = await userCollection.insertOne(data.toJson());
+      if (result.isSuccess) {
+        return "Data inserted";
+      } else {
+        return "Error creating new user";
+      }
+    } catch (e) {
+      print(e.toString());
+      return e.toString();
+    }
+  }
+
   static Future<List<Map<String,dynamic>>> getMangaData() async {
     final arrData = await mangaCollection.find().toList();
     return arrData;
@@ -56,8 +71,13 @@ class MongoDatabase {
     return arrData;
   }
 
-  static Future<List<Map<String,dynamic>>> queryMangaDataEq(fieldname, value) async {
-    final data = await mangaCollection.find(where.eq(fieldname, value)).toList();
+  static Future<List<Map<String,dynamic>>> queryMangaDataEq(fieldName, value) async {
+    final data = await mangaCollection.find(where.eq(fieldName, value)).toList();
+    return data;
+  }
+
+  static Future<List<Map<String,dynamic>>> queryUserDataEq(fieldName, value) async {
+    final data = await userCollection.find(where.eq(fieldName, value)).toList();
     return data;
   }
 }
