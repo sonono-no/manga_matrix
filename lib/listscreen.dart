@@ -8,6 +8,7 @@
 
 //flutter libraries
 import 'package:flutter/material.dart';
+import 'package:manga_matrix/dbHelper/constants.dart';
 
 //project files
 import 'package:manga_matrix/db_entry_model.dart';
@@ -33,7 +34,7 @@ class _ListScreenState extends State<ListScreen> {
         ),
         child: SafeArea(
           child: FutureBuilder(
-            future: MongoDatabase.getEntryData(),
+            future: MongoDatabase.queryEntryDataEq('username', CURR_USER),
             builder: (context , AsyncSnapshot snapshot) {
               if(snapshot.connectionState==ConnectionState.waiting) {
                 return Center(

@@ -55,7 +55,7 @@ class _ManualEntryTabState extends State<ManualEntryTab> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -69,6 +69,17 @@ class _ManualEntryTabState extends State<ManualEntryTab> {
                             )
                           ),
                     ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(Colors.pink[50]), 
+                        foregroundColor: WidgetStatePropertyAll(Colors.black)
+                      ),
+                      child: Text('Submit'),
+                      onPressed: (){}
+                      ),
                   )
                 ],
               ),
@@ -278,19 +289,6 @@ class _ManualEntryTabState extends State<ManualEntryTab> {
                   ],
                 ),
               ),
-              Row(children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Colors.grey[300]), 
-                      foregroundColor: WidgetStatePropertyAll(Colors.pink[100])
-                    ),
-                    child: Text('Submit'),
-                    onPressed: (){}
-                    ),
-                )
-              ],)
             ],
           ),
         ),
@@ -315,7 +313,7 @@ class _ListEntryTabState extends State<ListEntryTab> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -328,6 +326,17 @@ class _ListEntryTabState extends State<ListEntryTab> {
                             )
                           ),
                     ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(Colors.pink[50]), 
+                        foregroundColor: WidgetStatePropertyAll(Colors.black)
+                      ),
+                      child: Text('Submit'),
+                      onPressed: (){}
+                      ),
                   )
                 ],
               ),
