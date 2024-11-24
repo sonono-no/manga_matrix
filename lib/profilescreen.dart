@@ -9,6 +9,7 @@
 
 //flutter libraries
 import 'package:flutter/material.dart';
+import 'package:manga_matrix/dbHelper/constants.dart';
 
 //project files
 
@@ -20,7 +21,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String username = 'MangaLoverxoxo';
+  String username = CURR_USER;
   String password = '';
   String email = '';
 

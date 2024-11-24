@@ -8,6 +8,7 @@
 
 //flutter libraries
 import 'package:flutter/material.dart';
+import 'package:manga_matrix/dbHelper/constants.dart';
 
 //project files
 import 'homepage.dart';
@@ -47,6 +48,8 @@ class MainPage extends StatefulWidget {
 
 class _LogInPageState extends State<MainPage> {
   bool _obscure = true;
+  var usernameController = new TextEditingController();
+  var pwdController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +78,7 @@ class _LogInPageState extends State<MainPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: TextFormField(
+                        controller: usernameController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'Enter your username',
@@ -95,6 +99,7 @@ class _LogInPageState extends State<MainPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: TextFormField(
+                        controller: pwdController,
                         obscureText: _obscure,
                         obscuringCharacter: '*',
                         decoration: InputDecoration(
@@ -123,9 +128,23 @@ class _LogInPageState extends State<MainPage> {
                   padding: const EdgeInsets.all(10.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
-                        return MyHomePage();
-                      }));
+                      if (usernameController.text.isNotEmpty && pwdController.text.isNotEmpty) {
+                        CURR_USER = usernameController.text;
+                        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+                          return MyHomePage();
+                        }));
+                      } else {
+                        showDialog(context: context, builder: (BuildContext context) => AlertDialog (
+                          title: const Text('Invalid log-in'),
+                          content: const Text('Fields must not be empty, please enter info and try again.'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'OK'), 
+                              child: const Text('OK'),
+                              )
+                          ],
+                        ));
+                      }
                     }, 
                     child: Text('Log in'),
                   ),
