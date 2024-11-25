@@ -8,14 +8,12 @@
 import 'dart:convert';
 
 //projext files
-import 'package:mongo_dart/mongo_dart.dart';
 
 dbMangaModel dbMangaModelFromJson(String str) => dbMangaModel.fromJson(json.decode(str));
 
 String dbMangaModelToJson(dbMangaModel data) => json.encode(data.toJson());
 
 class dbMangaModel {
-    ObjectId id;
     String mangaName;
     String publisher;
     String type;
@@ -25,7 +23,6 @@ class dbMangaModel {
     List<String> altNames;
 
     dbMangaModel({
-        required this.id,
         required this.mangaName,
         required this.publisher,
         required this.type,
@@ -36,7 +33,6 @@ class dbMangaModel {
     });
 
     factory dbMangaModel.fromJson(Map<String, dynamic> json) => dbMangaModel(
-        id: json["_id"],
         mangaName: json["manga name"],
         publisher: json["publisher"],
         type: json["type"],
@@ -47,7 +43,6 @@ class dbMangaModel {
     );
 
     Map<String, dynamic> toJson() => {
-        "_id": id.toJson(),
         "manga name": mangaName,
         "publisher": publisher,
         "type": type,

@@ -7,8 +7,12 @@
 //flutter libraries
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:manga_matrix/dbHelper/constants.dart';
 
 //project files
+import 'package:manga_matrix/dbHelper/mongodb.dart';
+import 'package:manga_matrix/db_entry_model.dart';
+import 'package:manga_matrix/db_manga_model.dart';
 
 
 String typesdropdownvalue = 'Manga';
@@ -35,12 +39,23 @@ var userStatuses = [
   'Want to read'
 ];
 
+  String pubTemp = '';
+  String commTemp = '';
+
 class ManualEntryTab extends StatefulWidget {
   @override
   State<ManualEntryTab> createState() => _ManualEntryTabState();
 }
 
 class _ManualEntryTabState extends State<ManualEntryTab> {
+
+  // text field controllers
+  var mangaNameController = new TextEditingController();
+  var publisherController = new TextEditingController();
+  var chReadController = new TextEditingController();
+  var chTotalController = new TextEditingController();
+  var ratingController = new TextEditingController();
+  var commentsController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +93,40 @@ class _ManualEntryTabState extends State<ManualEntryTab> {
                         foregroundColor: WidgetStatePropertyAll(Colors.black)
                       ),
                       child: Text('Submit'),
-                      onPressed: (){}
+                      onPressed: (){
+                        bool valid = validateMangaEntry(
+                          mangaNameController.text, chReadController.text, ratingController.text, commentsController.text, publisherController.text, chTotalController.text
+                        );
+                        if (valid) {
+                          _insertEntry(mangaNameController.text, int.parse(chReadController.text), int.parse(ratingController.text), userstatusesdropdownvalue, commTemp);
+                          _insertManga(mangaNameController.text, pubTemp, typesdropdownvalue, int.parse(chTotalController.text), statusesdropdownvalue);
+                          showDialog(context: context, builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Entry submitted!'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, 'OK'), 
+                                child: const Text('OK'),
+                                )
+                            ],
+                          ));
+                          mangaNameController.text = '';
+                          chReadController.text = '';
+                          chTotalController.text = '';
+                          ratingController.text = '';
+                          commentsController.text = '';
+                        } else {
+                          showDialog(context: context, builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Invalid Entry'),
+                            content: const Text('Required fields cannot be left empty.'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, 'OK'), 
+                                child: const Text('OK'),
+                                )
+                            ],
+                          ));
+                        }
+                      }
                       ),
                   )
                 ],
@@ -100,6 +148,7 @@ class _ManualEntryTabState extends State<ManualEntryTab> {
                 child: Row(children: [
                   new Flexible(
                     child: TextFormField(
+                      controller: mangaNameController,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.pink[50],
@@ -115,6 +164,7 @@ class _ManualEntryTabState extends State<ManualEntryTab> {
                 child: Row(children: [
                   new Flexible(
                     child: TextFormField(
+                      controller: publisherController,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.pink[50],
@@ -134,6 +184,7 @@ class _ManualEntryTabState extends State<ManualEntryTab> {
                       width: 100,
                       height: 50,
                       child: TextFormField(
+                        controller: chReadController,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.pink[50],
@@ -153,6 +204,7 @@ class _ManualEntryTabState extends State<ManualEntryTab> {
                       width: 100,
                       height: 50,
                       child: TextFormField(
+                        controller: chTotalController,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.pink[50],
@@ -245,6 +297,7 @@ class _ManualEntryTabState extends State<ManualEntryTab> {
                         width: 80,
                         height: 60,
                         child: TextFormField(
+                          controller: ratingController,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.pink[50],
@@ -276,6 +329,7 @@ class _ManualEntryTabState extends State<ManualEntryTab> {
                   children: [
                     new Flexible(
                       child: TextField(
+                        controller: commentsController,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.pink[50],
@@ -289,6 +343,11 @@ class _ManualEntryTabState extends State<ManualEntryTab> {
                   ],
                 ),
               ),
+              Row(
+                children: [
+                  SizedBox(height: 500,)
+                ],
+              )
             ],
           ),
         ),
@@ -297,6 +356,37 @@ class _ManualEntryTabState extends State<ManualEntryTab> {
   }
 }
 
+bool validateMangaEntry(String mangaName, String chRead, String rating, String comments, String publisher, String chTotal) {
+  if (publisher.isNotEmpty) {
+    pubTemp = publisher;
+  }
+  if (comments.isNotEmpty) {
+    commTemp = comments;
+  }
+
+  if (mangaName.isEmpty || chRead.isEmpty || rating.isEmpty) {
+    return false;
+  }
+  return true;
+}
+
+/* insert new entry
+ * param: manga name, chapters read, rating, user status, comments
+ */
+Future<void> _insertEntry(String mangaName, int chRead, int rating, String userStatus, String comments) async {
+  DateTime dateEntered = DateTime.now();
+  List<String> customTags = [''];
+  final data = dbEntryModel(username: CURR_USER, mangaName: mangaName, chaptersRead: chRead, userStatus: userStatus, rating: rating, dateEntered: dateEntered, customTags: customTags, comments: comments);
+  var result = await MongoDatabase.insertEntry(data);
+}
+
+/* insert new manga
+ * param: manga name, puplisher, manga type, total chapters, manga status
+ */
+Future<void> _insertManga(String mangaName, String publisher, String type, int chTotal, String status) async {
+  final data = dbMangaModel(mangaName: mangaName, publisher: publisher, type: type, totalChapters: chTotal, status: status, genreTags: [''], altNames: ['']);
+  var result = await MongoDatabase.insertManga(data);
+}
 
 class ListEntryTab extends StatefulWidget {
   @override

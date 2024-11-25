@@ -6,12 +6,11 @@
 
 //flutter libraries
 import 'package:flutter/material.dart';
-import 'package:manga_matrix/dbHelper/mongodb.dart';
-import 'package:manga_matrix/db_user_model.dart';
 
 //project files
 import 'package:manga_matrix/main.dart';
-import 'package:mongo_dart/mongo_dart.dart' as M;
+import 'package:manga_matrix/dbHelper/mongodb.dart';
+import 'package:manga_matrix/db_user_model.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -201,8 +200,7 @@ class _SignUpPageState extends State<SignUpPage> {
  * param: username, pwd, and email controllers
  */
 Future<void> _insertUser(String username, String password, String email) async {
-  var _id = M.ObjectId();
-  final data = dbUserModel(id: _id, username: username, password: password, email: email);
+  final data = dbUserModel(username: username, password: password, email: email);
   var result = await MongoDatabase.insertUser(data);
 }
 

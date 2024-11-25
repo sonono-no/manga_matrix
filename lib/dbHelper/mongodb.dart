@@ -12,6 +12,8 @@ import 'dart:developer';
 //project files
 import 'package:manga_matrix/dbHelper/constants.dart';
 import 'package:manga_matrix/db_user_model.dart';
+import 'package:manga_matrix/db_entry_model.dart';
+import 'package:manga_matrix/db_manga_model.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class MongoDatabase {
@@ -44,6 +46,34 @@ class MongoDatabase {
         return "Data inserted";
       } else {
         return "Error creating new user";
+      }
+    } catch (e) {
+      print(e.toString());
+      return e.toString();
+    }
+  }
+
+  static Future<String> insertEntry(dbEntryModel data) async {
+    try {
+      var result = await entryCollection.insertOne(data.toJson());
+      if (result.isSuccess) {
+        return "Data inserted";
+      } else {
+        return "Error creating new entry";
+      }
+    } catch (e) {
+      print(e.toString());
+      return e.toString();
+    }
+  }
+
+  static Future<String> insertManga(dbMangaModel data) async {
+    try {
+      var result = await mangaCollection.insertOne(data.toJson());
+      if (result.isSuccess) {
+        return "Data inserted";
+      } else {
+        return "Error creating new manga";
       }
     } catch (e) {
       print(e.toString());

@@ -8,14 +8,12 @@
 import 'dart:convert';
 
 //project files
-import 'package:mongo_dart/mongo_dart.dart';
 
 dbEntryModel dbEntryModelFromJson(String str) => dbEntryModel.fromJson(json.decode(str));
 
 String dbEntryModelToJson(dbEntryModel data) => json.encode(data.toJson());
 
 class dbEntryModel {
-    ObjectId id;
     String username;
     String mangaName;
     int chaptersRead;
@@ -26,7 +24,6 @@ class dbEntryModel {
     String comments;
 
     dbEntryModel({
-        required this.id,
         required this.username,
         required this.mangaName,
         required this.chaptersRead,
@@ -38,7 +35,6 @@ class dbEntryModel {
     });
 
     factory dbEntryModel.fromJson(Map<String, dynamic> json) => dbEntryModel(
-        id: json["_id"],
         username: json["username"],
         mangaName: json["manga name"],
         chaptersRead: json["chapters read"],
@@ -50,7 +46,6 @@ class dbEntryModel {
     );
 
     Map<String, dynamic> toJson() => {
-        "_id": id.toJson(),
         "username": username,
         "manga name": mangaName,
         "chapters read": chaptersRead,

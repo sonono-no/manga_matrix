@@ -81,7 +81,9 @@ class _ListScreenState extends State<ListScreen> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [ //displays selected Manga entry info 
-              Text("${data.mangaName}"),
+              Text("${data.mangaName}",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               SizedBox(height: 5,),
               Text("Chapters read: ${data.chaptersRead}"),
               SizedBox(height: 5,),
