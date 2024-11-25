@@ -8,6 +8,10 @@
 import 'package:flutter/material.dart';
 
 //project files
+import 'package:manga_matrix/dbHelper/constants.dart';
+import 'package:manga_matrix/dbHelper/mongodb.dart';
+import 'package:manga_matrix/db_entry_model.dart';
+import 'package:manga_matrix/mangainfopage.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});

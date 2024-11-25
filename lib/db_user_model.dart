@@ -1,5 +1,5 @@
 /* db_user_Model.dart
- * does: creates db model json framework for manga collection
+ * does: creates db model json framework for user collection
  * calls: N/A
  * depends on: N/A
  */

@@ -2,8 +2,8 @@
  * does: sets constants for db vars
  */
 
-const MONGO_URL = "mongodb+srv://sonono:D!wn674267@cluster0.og7oj.mongodb.net/MangaMatrix";
-const USER_COLLECTION = "User";
-const MANGA_COLLECTION = "Manga";
-const ENTRY_COLLECTION = "User Entry";
-const TAGS_COLLECTION = "Tags";
+const MONGO_URL = "";
+const USER_COLLECTION = "";
+const MANGA_COLLECTION = "";
+const ENTRY_COLLECTION = "";
+const TAGS_COLLECTION = "";

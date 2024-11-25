@@ -81,6 +81,11 @@ class MongoDatabase {
     return data;
   }
 
+  static Future<List<Map<String,dynamic>>> searchEntryDataEq(fieldName1, value1, fieldName2, value2) async {
+    final data = await entryCollection.find(where.eq(fieldName1, value1).eq(fieldName2, value2)).toList();
+    return data;
+  }
+
   static Future<List<Map<String,dynamic>>> queryUserDataEq(fieldName, value) async {
     final data = await userCollection.find(where.eq(fieldName, value)).toList();
     return data;
