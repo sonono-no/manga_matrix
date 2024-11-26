@@ -9,6 +9,7 @@
 //flutter libraries
 import 'package:flutter/material.dart';
 import 'package:manga_matrix/dbHelper/constants.dart';
+import 'package:intl/intl.dart';
 
 //project files
 import 'package:manga_matrix/db_entry_model.dart';
@@ -92,10 +93,17 @@ class _ListScreenState extends State<ListScreen> {
               SizedBox(height: 5,),
               if(data.rating!=-1) //if rating field not empty
                 Text("Rate: ${data.rating}/10"),
+              SizedBox(height: 5,),
+              Text("Date Entered: ${formatDate(data.dateEntered)}")
             ],
           ),
         ),
       )
     );
   }
+}
+
+String formatDate(DateTime date) {
+  String formattedDate = DateFormat('MM/dd/yyyy – kk:mm').format(date);
+  return formattedDate;
 }

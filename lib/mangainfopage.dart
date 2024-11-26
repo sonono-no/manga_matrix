@@ -16,6 +16,7 @@ import 'package:flutter/services.dart';
 import 'package:manga_matrix/dbHelper/mongodb.dart';
 import 'package:manga_matrix/db_manga_model.dart';
 import 'package:manga_matrix/db_entry_model.dart';
+import 'package:manga_matrix/listscreen.dart';
 
 class MangaInfoPage extends StatefulWidget {
   final dbEntryModel entryData;
@@ -52,32 +53,35 @@ var userStatuses = [
 
 class _MangaInfoPageState extends State<MangaInfoPage> {
 
-  String mangaName = ''; 
-  String publisher = '';
-  int chRead = 0;
-  int chTotal = 0;
   String status = '';
   String userStatus = '';
   String type = '';
-  int rating = 0;
-  String comments = '';
+  String dateUpdated = '';
 
   bool readOnly = true;
   bool switched = false;
 
+  var mangaNameController = new TextEditingController();
+  var publisherController = new TextEditingController();
+  var chReadController = new TextEditingController();
+  var chTotalController = new TextEditingController();
+  var ratingController = new TextEditingController();
+  var commentsController = new TextEditingController();
+
   void setDbVars(dbMangaModel data) {
-    mangaName = widget.entryData.mangaName;
+    mangaNameController.text = widget.entryData.mangaName;
     if(data.publisher.isNotEmpty){
-      publisher = data.publisher;
+      publisherController.text = data.publisher;
     }
     
-    chRead = widget.entryData.chaptersRead;
-    chTotal = data.totalChapters;
+    chReadController.text = widget.entryData.chaptersRead.toString();
+    chTotalController.text = data.totalChapters.toString();
     status = data.status;
     userStatus = widget.entryData.userStatus;
     type = data.type;
-    rating = widget.entryData.rating;
-    comments = widget.entryData.comments;
+    ratingController.text = widget.entryData.rating.toString();
+    commentsController.text = widget.entryData.comments;
+    dateUpdated = formatDate(widget.entryData.dateEntered);
 
     for (final item in types){
       if (type.toUpperCase() == item){
@@ -163,16 +167,30 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                                     ));
                                   } else {
                                     //TODO: Update DB
-                                    showDialog(context: context, builder: (BuildContext context) => AlertDialog(
-                                      title: const Text('Edits Submitted!'),
-                                      content: const Text('Changes have been submitted to the database and your list has been updated.'),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () => Navigator.pop(context, 'OK'), 
-                                          child: const Text('OK'),
-                                          )
-                                      ],
-                                    ));
+                                    if (mangaNameController.text.isNotEmpty && chReadController.text.isNotEmpty &&
+                                        chTotalController.text.isNotEmpty && ratingController.text.isNotEmpty) {
+                                        showDialog(context: context, builder: (BuildContext context) => AlertDialog(
+                                          title: const Text('Edits Submitted!'),
+                                          content: const Text('Changes have been submitted to the database and your list has been updated.'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(context, 'OK'), 
+                                              child: const Text('OK'),
+                                              )
+                                          ],
+                                        ));
+                                      } else {
+                                        showDialog(context: context, builder: (BuildContext context) => AlertDialog(
+                                          title: const Text('Invalid Entry'),
+                                          content: const Text('Required fields cannot be left empty.'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(context, 'OK'), 
+                                              child: const Text('OK'),
+                                              )
+                                          ],
+                                        ));
+                                      }
                                   }
                                 }
                               ),
@@ -183,14 +201,22 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
+                          children: [
+                            Text("Date updated: ${dateUpdated}")
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             new Flexible(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: TextFormField(
-                                  readOnly: true,
-                                  initialValue: mangaName,
+                                  controller: mangaNameController,
+                                  readOnly: readOnly,
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: Colors.blue[50],
@@ -211,8 +237,8 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: TextFormField(
-                                  readOnly: true,
-                                  initialValue: publisher,
+                                  controller: publisherController,
+                                  readOnly: readOnly,
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: Colors.blue[50],
@@ -237,8 +263,8 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: TextFormField(
+                                  controller: chReadController,
                                   readOnly: readOnly,
-                                  initialValue: chRead.toString(),
                                   inputFormatters:<TextInputFormatter>[
                                     FilteringTextInputFormatter.digitsOnly
                                   ],
@@ -248,8 +274,10 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                             ElevatedButton(
                               child: Text('+1'),
                               onPressed: (){
-                                //TODO: get this to work
-                                //chRead++;
+                                int newChReadInt = int.parse(chReadController.text);
+                                newChReadInt++;
+                                String newChReadStr = newChReadInt.toString();
+                                chReadController.text = newChReadStr;
                               }
                             ),
                             Padding(
@@ -260,8 +288,8 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: TextFormField(
+                                  controller: chTotalController,
                                   readOnly: readOnly,
-                                  initialValue: chTotal.toString(),
                                   inputFormatters:<TextInputFormatter>[
                                     FilteringTextInputFormatter.digitsOnly
                                   ],
@@ -271,8 +299,10 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                             ElevatedButton(
                               child: Text('+1'),
                               onPressed: (){
-                                //TODO: get this to work
-                                //chTotal++;
+                                int newChTotalInt = int.parse(chTotalController.text);
+                                newChTotalInt++;
+                                String newChTotalStr = newChTotalInt.toString();
+                                chTotalController.text = newChTotalStr;
                               }
                             ),
                           ]
@@ -362,8 +392,8 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                                 child: Container(
                                   color: Colors.blue[50],
                                   child: TextFormField(
+                                    controller: ratingController,
                                     readOnly: readOnly,
-                                    initialValue: rating.toString(),
                                     inputFormatters:<TextInputFormatter>[
                                       FilteringTextInputFormatter.digitsOnly
                                     ],
@@ -396,9 +426,9 @@ class _MangaInfoPageState extends State<MangaInfoPage> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: TextFormField(
+                                  controller: commentsController,
                                   readOnly: readOnly,
                                   maxLines: null,
-                                  initialValue: comments,
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: Colors.blue[50],
